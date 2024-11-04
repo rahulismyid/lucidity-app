@@ -1,10 +1,15 @@
 import React from "react";
 
 const iconMap = {
-  totalProducts: "📦",
-  totalAmount: "💰",
-  outOfStock: "🔥",
-  categories: "📦",
+  totalProducts: <i className="fa-solid fa-cart-shopping"></i>,
+  totalAmount: <i className="fa-solid fa-dollar-sign"></i>,
+  outOfStock: (
+    <>
+      <div className="w-[20px] h-[2px] text-white out-of-stock-cart" />
+      <i className="fa-solid fa-cart-shopping"></i>
+    </>
+  ),
+  categories: <i className="fa-solid fa-shapes"></i>,
 };
 
 const Status = (props) => {

@@ -1,5 +1,6 @@
 import React, { lazy, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   fetchProducts,
   getInventoryData,
@@ -10,6 +11,7 @@ const ProductList = lazy(() => import("../../components/ProductList"));
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products, statsTiles } = useSelector((state) => state.inventory);
   const [statusList, setStatusList] = useState([]);
 
@@ -18,8 +20,15 @@ const Dashboard = () => {
   }, [products, statsTiles]);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchProducts()).unwrap();
+      } catch (error) {
+        navigate("/error");
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
     if (products?.length) {
@@ -31,8 +40,8 @@ const Dashboard = () => {
     <>
       <div className="pt-4 px-4">
         <h1 className="text-5xl text-white">Inventory Stats</h1>
-        {products && products?.length ? (
-          <div className=" w-full">
+        {products && products.length ? (
+          <div className="w-full">
             <div className="flex gap-4 justify-center mt-6">
               {statusList?.map((item, index) => (
                 <Status key={index} {...item} />

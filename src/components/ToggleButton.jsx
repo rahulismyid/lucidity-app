@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleUser } from "../store/reducers/inventorySlice";
 
 const ToggleButton = () => {
   const [isUser, setIsUser] = useState(false);
+  const { products } = useSelector((state) => state.inventory);
   const dispatch = useDispatch();
 
   const handleToggle = (e) => {
     setIsUser(e.target.checked);
     dispatch(toggleUser(e.target.checked ? "user" : "admin"));
   };
+
+  if (!products.length) return null;
 
   return (
     <div className="flex items-center justify-center w-full">
